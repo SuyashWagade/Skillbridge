@@ -1,186 +1,214 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { User, Mail, Phone, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { User, Mail, Phone, Lock, Eye, EyeOff } from 'lucide-react';
 
 function Signup() {
+    const navigate = useNavigate();
+
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
         phone: '',
         password: '',
         confirmPassword: '',
+        role: '', // ✅ NEW
     });
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (formData.password !== formData.confirmPassword) {
-            alert('Passwords do not match!');
+        setError('');
+
+        if (!formData.role) {
+            setError('Please select signup type');
             return;
         }
-        alert('Registration functionality coming soon!');
+
+        if (formData.password !== formData.confirmPassword) {
+            setError('Passwords do not match');
+            return;
+        }
+
+        try {
+            setLoading(true);
+
+            const res = await fetch('http://localhost:5000/api/auth/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: formData.fullName,
+                    phone: formData.phone,
+                    password: formData.password,
+                    role: formData.role, // ✅ IMPORTANT
+                }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.message || 'Signup failed');
+            }
+
+            // Save auth
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+
+            // 🔁 Redirect (simple)
+            navigate('/login');
+
+            // 🔥 OPTIONAL (role-based redirect)
+            // if (data.user.role === 'worker') navigate('/worker/dashboard');
+            // else navigate('/customer/dashboard');
+
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
-        <main className="min-h-[calc(100vh-160px)] flex items-center justify-center py-16 px-4 bg-gradient-to-br from-gray-50 via-emerald-50/20 to-violet-50/20 relative overflow-hidden">
-            {/* Background Decorations */}
-            <div className="absolute top-20 right-10 w-72 h-72 bg-emerald-100/40 rounded-full blur-3xl" />
-            <div className="absolute bottom-20 left-10 w-80 h-80 bg-primary-100/40 rounded-full blur-3xl" />
-            <div className="absolute top-1/3 left-1/3 w-64 h-64 bg-amber-100/30 rounded-full blur-3xl" />
+        <main className="min-h-[calc(100vh-160px)] flex items-center justify-center py-16 px-4 bg-gradient-to-br from-gray-50 via-emerald-50/20 to-violet-50/20">
+            <div className="w-full max-w-md">
+                <div className="bg-white rounded-2xl p-8 shadow-lg">
 
-            <div className="relative w-full max-w-md">
-                {/* Card */}
-                <div className="gradient-border">
-                    <div className="bg-white rounded-2xl p-8 lg:p-10">
-                        {/* Header */}
-                        <div className="text-center mb-8">
-                            <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-                                <span className="text-xl font-bold text-white">SB</span>
-                            </div>
-                            <h1 className="text-2xl font-bold text-slate-900 mb-1">Create Account</h1>
-                            <p className="text-gray-500 text-sm">Join SkillBridge and get started today</p>
+                    {/* Header */}
+                    <div className="text-center mb-6">
+                        <h1 className="text-2xl font-bold">Create Account</h1>
+                        <p className="text-gray-500 text-sm">Join SkillBridge</p>
+                    </div>
+
+                    {/* Error */}
+                    {error && (
+                        <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg p-3">
+                            {error}
                         </div>
+                    )}
 
-                        {/* Form */}
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <div>
-                                <label htmlFor="fullName" className="block text-sm font-medium text-slate-700 mb-1.5">
-                                    Full Name
-                                </label>
-                                <div className="relative">
-                                    <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-500" />
-                                    <input
-                                        id="fullName"
-                                        type="text"
-                                        name="fullName"
-                                        value={formData.fullName}
-                                        onChange={handleChange}
-                                        required
-                                        placeholder="John Doe"
-                                        className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-slate-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent focus:bg-white transition-all"
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1.5">
-                                    Email Address
-                                </label>
-                                <div className="relative">
-                                    <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-400" />
-                                    <input
-                                        id="email"
-                                        type="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        required
-                                        placeholder="john@example.com"
-                                        className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-slate-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent focus:bg-white transition-all"
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-1.5">
-                                    Phone Number
-                                </label>
-                                <div className="relative">
-                                    <Phone size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-amber-500" />
-                                    <input
-                                        id="phone"
-                                        type="tel"
-                                        name="phone"
-                                        value={formData.phone}
-                                        onChange={handleChange}
-                                        required
-                                        placeholder="+91 98765 43210"
-                                        className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-slate-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent focus:bg-white transition-all"
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1.5">
-                                    Password
-                                </label>
-                                <div className="relative">
-                                    <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-violet-500" />
-                                    <input
-                                        id="password"
-                                        type={showPassword ? 'text' : 'password'}
-                                        name="password"
-                                        value={formData.password}
-                                        onChange={handleChange}
-                                        required
-                                        placeholder="Create a password"
-                                        className="w-full pl-11 pr-12 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-slate-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent focus:bg-white transition-all"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-violet-500 transition-colors"
-                                    >
-                                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label htmlFor="confirmPassword" className="block text-sm font-medium text-slate-700 mb-1.5">
-                                    Confirm Password
-                                </label>
-                                <div className="relative">
-                                    <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-rose-500" />
-                                    <input
-                                        id="confirmPassword"
-                                        type={showConfirm ? 'text' : 'password'}
-                                        name="confirmPassword"
-                                        value={formData.confirmPassword}
-                                        onChange={handleChange}
-                                        required
-                                        placeholder="Confirm your password"
-                                        className="w-full pl-11 pr-12 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-slate-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent focus:bg-white transition-all"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowConfirm(!showConfirm)}
-                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-rose-500 transition-colors"
-                                    >
-                                        {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
-                                    </button>
-                                </div>
-                            </div>
+                    {/* 🔥 ROLE SELECTION */}
+                    <div className="mb-5">
+                        <label className="block text-sm font-medium mb-2">
+                            Signup as
+                        </label>
+                        <div className="flex gap-3">
+                            <button
+                                type="button"
+                                onClick={() => setFormData({ ...formData, role: 'customer' })}
+                                className={`flex-1 py-2 rounded-xl border font-semibold
+                                  ${formData.role === 'customer'
+                                        ? 'bg-emerald-600 text-white'
+                                        : 'bg-gray-50'
+                                    }`}
+                            >
+                                Customer
+                            </button>
 
                             <button
-                                type="submit"
-                                className="group w-full flex items-center justify-center gap-2 py-3.5 bg-gradient-to-r from-emerald-500 via-primary-600 to-accent-600 text-white font-semibold rounded-xl hover:from-emerald-600 hover:via-primary-700 hover:to-accent-700 transition-all duration-200 shadow-md hover:shadow-lg mt-2"
+                                type="button"
+                                onClick={() => setFormData({ ...formData, role: 'worker' })}
+                                className={`flex-1 py-2 rounded-xl border font-semibold
+                                  ${formData.role === 'worker'
+                                        ? 'bg-violet-600 text-white'
+                                        : 'bg-gray-50'
+                                    }`}
                             >
-                                Create Account
-                                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                                Worker
                             </button>
-                        </form>
+                        </div>
+                    </div>
 
-                        {/* Divider */}
-                        <div className="flex items-center gap-3 my-6">
-                            <div className="flex-1 h-px bg-gray-200" />
-                            <span className="text-xs text-gray-400 font-medium">OR</span>
-                            <div className="flex-1 h-px bg-gray-200" />
+                    {/* Form */}
+                    <form onSubmit={handleSubmit} className="space-y-4">
+
+                        {/* Full Name */}
+                        <div>
+                            <label className="text-sm font-medium">Full Name</label>
+                            <div className="relative">
+                                <User size={18} className="absolute left-3 top-1/2 -translate-y-1/2" />
+                                <input
+                                    name="fullName"
+                                    value={formData.fullName}
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full pl-10 py-2 rounded-xl border bg-gray-50"
+                                />
+                            </div>
                         </div>
 
-                        {/* Footer */}
-                        <p className="text-center text-sm text-gray-500">
-                            Already have an account?{' '}
-                            <Link to="/login" className="font-semibold text-primary-600 hover:text-accent-600 transition-colors">
-                                Sign In
-                            </Link>
-                        </p>
-                    </div>
+                        {/* Phone */}
+                        <div>
+                            <label className="text-sm font-medium">Phone</label>
+                            <div className="relative">
+                                <Phone size={18} className="absolute left-3 top-1/2 -translate-y-1/2" />
+                                <input
+                                    name="phone"
+                                    value={formData.phone}
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full pl-10 py-2 rounded-xl border bg-gray-50"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Password */}
+                        <div>
+                            <label className="text-sm font-medium">Password</label>
+                            <div className="relative">
+                                <Lock size={18} className="absolute left-3 top-1/2 -translate-y-1/2" />
+                                <input
+                                    type={showPassword ? 'text' : 'password'}
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full pl-10 pr-10 py-2 rounded-xl border bg-gray-50"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2"
+                                >
+                                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Confirm Password */}
+                        <div>
+                            <label className="text-sm font-medium">Confirm Password</label>
+                            <input
+                                type={showConfirm ? 'text' : 'password'}
+                                name="confirmPassword"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                required
+                                className="w-full py-2 rounded-xl border bg-gray-50"
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full py-3 bg-emerald-600 text-white rounded-xl font-semibold"
+                        >
+                            {loading ? 'Creating account...' : 'Create Account'}
+                        </button>
+                    </form>
+
+                    <p className="text-center text-sm mt-6">
+                        Already have an account?{' '}
+                        <Link to="/login" className="text-emerald-600 font-semibold">
+                            Sign In
+                        </Link>
+                    </p>
                 </div>
             </div>
         </main>
