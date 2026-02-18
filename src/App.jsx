@@ -1,16 +1,19 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import HomePage from './Pages/HomePage';
+import LandingPage from './pages/LandingPage';
+import CustomerHomePage from './pages/CustomerHomePage';
+import ServiceListingPage from './pages/ServiceListingPage';
+import WorkerSignupPage from './pages/WorkerSignupPage';
 import './index.css';
 
 function App() {
   return (
     <BrowserRouter>
-      <Header />
-
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/customer/home" element={<CustomerHomePage />} />
+        <Route path="/services/:category" element={<ServiceListingPage />} />
+        <Route path="/worker/signup" element={<WorkerSignupPage />} />
       </Routes>
     </BrowserRouter>
   );
