@@ -1,4 +1,5 @@
 import { Target, Eye, Heart, Lightbulb, Award, Users, Globe, TrendingUp } from 'lucide-react';
+import bridge from '../assets/bridge.jpg';
 
 const values = [
     {
@@ -50,12 +51,18 @@ function About() {
     return (
         <main>
             {/* Hero Banner */}
-            <section className="relative bg-gradient-to-br from-primary-800 via-primary-700 to-accent-600 py-20 lg:py-28 overflow-hidden">
+            <section
+                className="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden bg-cover bg-center"
+                style={{ backgroundImage: `url(${bridge})` }}
+            >
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-slate-900/75" />
+
                 <div className="absolute inset-0">
-                    <div className="absolute top-10 right-10 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl" />
-                    <div className="absolute bottom-10 left-10 w-80 h-80 bg-violet-500/10 rounded-full blur-3xl" />
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl" />
-                    <div className="absolute inset-0 opacity-5"
+                    <div className="absolute top-10 right-10 w-80 h-80 bg-cyan-500/20 rounded-full blur-3xl opacity-40" />
+                    <div className="absolute bottom-10 left-10 w-80 h-80 bg-violet-500/20 rounded-full blur-3xl opacity-40" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl opacity-40" />
+                    <div className="absolute inset-0 opacity-10"
                         style={{
                             backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
                             backgroundSize: '32px 32px',

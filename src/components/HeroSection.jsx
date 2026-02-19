@@ -5,13 +5,16 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 import { ArrowRight, Briefcase, Users, Star } from 'lucide-react';
+import blu1 from '../assets/blu1.jpg';
+import blu2 from '../assets/blu2.jpeg';
+import blu3 from '../assets/blu3.jpg';
 
 const slides = [
     {
         headline: 'Connecting Skilled Workers to Trusted Employers',
         subtext:
             'SkillBridge is your one-stop platform for finding verified blue-collar professionals and meaningful job opportunities.',
-        bg: 'from-primary-900 via-primary-700 to-accent-600',
+        image: blu1,
         accent: 'from-cyan-500/20 to-violet-500/20',
         badge: { icon: Users, text: '10,000+ Workers', color: 'bg-emerald-500' },
     },
@@ -19,7 +22,7 @@ const slides = [
         headline: 'Find the Right Talent, Fast',
         subtext:
             'Browse thousands of skilled workers — from electricians to carpenters — vetted and ready to work on your projects.',
-        bg: 'from-slate-900 via-primary-900 to-accent-600',
+        image: blu2,
         accent: 'from-amber-500/20 to-rose-500/20',
         badge: { icon: Briefcase, text: '5,000+ Jobs', color: 'bg-amber-500' },
     },
@@ -27,7 +30,7 @@ const slides = [
         headline: 'Build Your Career with SkillBridge',
         subtext:
             'Discover job opportunities that match your skills. Get hired by trusted employers who value your craftsmanship.',
-        bg: 'from-violet-900 via-primary-800 to-emerald-700',
+        image: blu3,
         accent: 'from-emerald-500/20 to-primary-500/20',
         badge: { icon: Star, text: '95% Success', color: 'bg-violet-500' },
     },
@@ -47,15 +50,19 @@ function HeroSection() {
                 {slides.map((slide, index) => (
                     <SwiperSlide key={index}>
                         <div
-                            className={`relative bg-gradient-to-br ${slide.bg} min-h-[620px] lg:min-h-[720px] flex items-center`}
+                            className="relative min-h-[620px] lg:min-h-[720px] flex items-center bg-cover bg-center"
+                            style={{ backgroundImage: `url(${slide.image})` }}
                         >
+                            {/* Overlay for better text readability */}
+                            <div className="absolute inset-0 bg-slate-900/60" />
+
                             {/* Decorative Elements */}
                             <div className="absolute inset-0 overflow-hidden">
-                                <div className={`absolute top-20 left-10 w-80 h-80 bg-gradient-to-br ${slide.accent} rounded-full blur-3xl`} />
+                                <div className={`absolute top-20 left-10 w-80 h-80 bg-gradient-to-br ${slide.accent} rounded-full blur-3xl opacity-30`} />
                                 <div className="absolute bottom-20 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
                                 <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-primary-500/10 rounded-full blur-3xl" />
                                 {/* Grid Pattern */}
-                                <div className="absolute inset-0 opacity-5"
+                                <div className="absolute inset-0 opacity-10"
                                     style={{
                                         backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
                                         backgroundSize: '30px 30px',
@@ -63,7 +70,7 @@ function HeroSection() {
                                 />
                             </div>
 
-                            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 pt-32 lg:pt-40">
                                 <div className="max-w-3xl">
                                     {/* Floating Badge */}
                                     <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full mb-8">
@@ -72,10 +79,10 @@ function HeroSection() {
                                         <span className="text-sm text-white/80 font-medium">{slide.badge.text}</span>
                                     </div>
 
-                                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
+                                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6 drop-shadow-lg">
                                         {slide.headline}
                                     </h1>
-                                    <p className="text-base sm:text-lg text-gray-200/90 leading-relaxed mb-10 max-w-2xl">
+                                    <p className="text-base sm:text-lg text-gray-100 leading-relaxed mb-10 max-w-2xl drop-shadow-md">
                                         {slide.subtext}
                                     </p>
                                     <div className="flex flex-wrap gap-4">

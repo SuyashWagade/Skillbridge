@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Menu, X, ChevronRight } from 'lucide-react';
+import logo from '../assets/logo1.png';
 
 const navLinks = [
   { to: '/', label: 'Home' },
@@ -24,9 +25,7 @@ function Header() {
         <div className="flex items-center justify-between h-16 lg:h-18">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 bg-gradient-to-br from-primary-600 to-accent-600 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
-              <span className="text-white font-bold text-sm">SB</span>
-            </div>
+            <img src={logo} alt="SkillBridge Logo" className="h-14 w-auto" />
             <span className="text-xl font-bold text-slate-900">
               Skill<span className="gradient-text">Bridge</span>
             </span>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { MapPin, Phone, Mail, Send, Clock, MessageSquare } from 'lucide-react';
+import contactHero from '../assets/contact.jpg';
 
 const contactInfo = [
     {
@@ -57,11 +58,17 @@ function Contact() {
     return (
         <main>
             {/* Hero Banner */}
-            <section className="relative bg-gradient-to-br from-primary-800 via-accent-600 to-emerald-700 py-20 lg:py-24 overflow-hidden">
+            <section
+                className="relative pt-32 pb-20 lg:pt-40 lg:pb-24 overflow-hidden bg-cover bg-center"
+                style={{ backgroundImage: `url(${contactHero})` }}
+            >
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-slate-900/75" />
+
                 <div className="absolute inset-0">
-                    <div className="absolute top-10 right-10 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl" />
-                    <div className="absolute bottom-10 left-10 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl" />
-                    <div className="absolute inset-0 opacity-5"
+                    <div className="absolute top-10 right-10 w-72 h-72 bg-cyan-500/20 rounded-full blur-3xl opacity-40" />
+                    <div className="absolute bottom-10 left-10 w-80 h-80 bg-amber-500/20 rounded-full blur-3xl opacity-40" />
+                    <div className="absolute inset-0 opacity-10"
                         style={{
                             backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
                             backgroundSize: '28px 28px',

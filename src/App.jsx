@@ -4,16 +4,16 @@ import { useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
-import Home from './pages/Home';
-import About from './pages/About';
-import Services from './pages/Services';
-import Contact from './pages/Contact';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
+import Home from './Pages/Home';
+import About from './Pages/About';
+import Services from './Pages/Services';
+import Contact from './Pages/Contact';
+import Login from './Pages/Login';
+import Signup from './Pages/Signup';
 
 // 🔥 ADD THESE IMPORTS
-import WorkerProfile from './pages/WorkerProfile';
-import CustomerDashboard from './pages/CustomerDashboard';
+import WorkerProfile from './Pages/WorkerProfile';
+import CustomerDashboard from './Pages/CustomerDashboard';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
