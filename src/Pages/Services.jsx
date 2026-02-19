@@ -1,6 +1,16 @@
-import { Link } from 'react-router-dom';
-import { Zap, Droplets, Hammer, Wrench, HardHat, Sparkles, PaintBucket, Truck, ArrowRight, Briefcase } from 'lucide-react';
+import { Zap, Droplets, Hammer, Wrench, HardHat, Sparkles, PaintBucket, Truck, Briefcase } from 'lucide-react';
+import ServiceCard from '../components/ServiceCard';
 import servicesHero from '../assets/services.jpg';
+
+// Service images
+import electricianImg from '../assets/electrican.jpg';
+import plumberImg from '../assets/plumber.jpg';
+import carpenterImg from '../assets/carpenter.jpg';
+import mechanicImg from '../assets/mechanic.jpg';
+import constructionImg from '../assets/construction.jpg';
+import housekeepingImg from '../assets/housekeeping.jpg';
+import painterImg from '../assets/painter.jpg';
+import driversImg from '../assets/drivers.jpg';
 
 const services = [
     {
@@ -11,6 +21,7 @@ const services = [
         bg: 'bg-gradient-to-br from-yellow-50 to-amber-50',
         border: 'hover:border-yellow-300',
         badge: 'bg-yellow-100 text-yellow-700',
+        image: electricianImg,
     },
     {
         icon: Droplets,
@@ -20,6 +31,7 @@ const services = [
         bg: 'bg-gradient-to-br from-blue-50 to-cyan-50',
         border: 'hover:border-blue-300',
         badge: 'bg-blue-100 text-blue-700',
+        image: plumberImg,
     },
     {
         icon: Hammer,
@@ -29,6 +41,7 @@ const services = [
         bg: 'bg-gradient-to-br from-amber-50 to-orange-50',
         border: 'hover:border-amber-300',
         badge: 'bg-amber-100 text-amber-700',
+        image: carpenterImg,
     },
     {
         icon: Wrench,
@@ -38,6 +51,7 @@ const services = [
         bg: 'bg-gradient-to-br from-slate-50 to-gray-100',
         border: 'hover:border-slate-300',
         badge: 'bg-slate-100 text-slate-700',
+        image: mechanicImg,
     },
     {
         icon: HardHat,
@@ -47,6 +61,7 @@ const services = [
         bg: 'bg-gradient-to-br from-orange-50 to-red-50',
         border: 'hover:border-orange-300',
         badge: 'bg-orange-100 text-orange-700',
+        image: constructionImg,
     },
     {
         icon: Sparkles,
@@ -56,6 +71,7 @@ const services = [
         bg: 'bg-gradient-to-br from-purple-50 to-violet-50',
         border: 'hover:border-purple-300',
         badge: 'bg-purple-100 text-purple-700',
+        image: housekeepingImg,
     },
     {
         icon: PaintBucket,
@@ -65,6 +81,7 @@ const services = [
         bg: 'bg-gradient-to-br from-pink-50 to-rose-50',
         border: 'hover:border-pink-300',
         badge: 'bg-pink-100 text-pink-700',
+        image: painterImg,
     },
     {
         icon: Truck,
@@ -74,6 +91,7 @@ const services = [
         bg: 'bg-gradient-to-br from-teal-50 to-cyan-50',
         border: 'hover:border-teal-300',
         badge: 'bg-teal-100 text-teal-700',
+        image: driversImg,
     },
 ];
 
@@ -120,34 +138,9 @@ function Services() {
                 <div className="absolute bottom-0 right-0 w-72 h-72 bg-violet-50/50 rounded-full translate-y-1/3 translate-x-1/3 blur-3xl" />
 
                 <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {services.map(({ icon: Icon, title, description, color, bg, border, badge }) => (
-                            <div
-                                key={title}
-                                className={`group p-7 rounded-2xl bg-white border-2 border-transparent ${border} card-shadow hover:card-shadow-hover hover:-translate-y-2 transition-all duration-300`}
-                            >
-                                <div className="flex items-center justify-between mb-5">
-                                    <div
-                                        className={`w-14 h-14 ${bg} rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}
-                                    >
-                                        <Icon size={26} className={color} />
-                                    </div>
-                                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${badge}`}>Popular</span>
-                                </div>
-                                <h3 className="text-lg font-semibold text-slate-900 mb-2">
-                                    {title}
-                                </h3>
-                                <p className="text-sm text-gray-500 leading-relaxed mb-5">
-                                    {description}
-                                </p>
-                                <Link
-                                    to="/contact"
-                                    className={`inline-flex items-center gap-1.5 text-sm font-medium ${color} hover:opacity-80 transition-all group/link`}
-                                >
-                                    Explore
-                                    <ArrowRight size={15} className="group-hover/link:translate-x-1 transition-transform" />
-                                </Link>
-                            </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {services.map((service) => (
+                            <ServiceCard key={service.title} {...service} />
                         ))}
                     </div>
                 </div>

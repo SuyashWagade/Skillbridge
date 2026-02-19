@@ -1,4 +1,13 @@
 import { Zap, Droplets, Hammer, Wrench, HardHat, Sparkles } from 'lucide-react';
+import ServiceCard from './ServiceCard';
+
+// Service images
+import electricianImg from '../assets/electrican.jpg';
+import plumberImg from '../assets/plumber.jpg';
+import carpenterImg from '../assets/carpenter.jpg';
+import mechanicImg from '../assets/mechanic.jpg';
+import constructionImg from '../assets/construction.jpg';
+import housekeepingImg from '../assets/housekeeping.jpg';
 
 const services = [
     {
@@ -8,7 +17,8 @@ const services = [
         color: 'text-yellow-500',
         bg: 'bg-gradient-to-br from-yellow-50 to-amber-50',
         border: 'hover:border-yellow-300',
-        glow: 'group-hover:shadow-yellow-100',
+        badge: 'bg-yellow-100 text-yellow-700',
+        image: electricianImg,
     },
     {
         icon: Droplets,
@@ -17,7 +27,8 @@ const services = [
         color: 'text-blue-500',
         bg: 'bg-gradient-to-br from-blue-50 to-cyan-50',
         border: 'hover:border-blue-300',
-        glow: 'group-hover:shadow-blue-100',
+        badge: 'bg-blue-100 text-blue-700',
+        image: plumberImg,
     },
     {
         icon: Hammer,
@@ -26,7 +37,8 @@ const services = [
         color: 'text-amber-600',
         bg: 'bg-gradient-to-br from-amber-50 to-orange-50',
         border: 'hover:border-amber-300',
-        glow: 'group-hover:shadow-amber-100',
+        badge: 'bg-amber-100 text-amber-700',
+        image: carpenterImg,
     },
     {
         icon: Wrench,
@@ -35,7 +47,8 @@ const services = [
         color: 'text-slate-600',
         bg: 'bg-gradient-to-br from-slate-50 to-gray-100',
         border: 'hover:border-slate-300',
-        glow: 'group-hover:shadow-slate-100',
+        badge: 'bg-slate-100 text-slate-700',
+        image: mechanicImg,
     },
     {
         icon: HardHat,
@@ -44,7 +57,8 @@ const services = [
         color: 'text-orange-500',
         bg: 'bg-gradient-to-br from-orange-50 to-red-50',
         border: 'hover:border-orange-300',
-        glow: 'group-hover:shadow-orange-100',
+        badge: 'bg-orange-100 text-orange-700',
+        image: constructionImg,
     },
     {
         icon: Sparkles,
@@ -53,7 +67,8 @@ const services = [
         color: 'text-purple-500',
         bg: 'bg-gradient-to-br from-purple-50 to-violet-50',
         border: 'hover:border-purple-300',
-        glow: 'group-hover:shadow-purple-100',
+        badge: 'bg-purple-100 text-purple-700',
+        image: housekeepingImg,
     },
 ];
 
@@ -81,25 +96,9 @@ function ServicesSection() {
                 </div>
 
                 {/* Services Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {services.map(({ icon: Icon, title, description, color, bg, border, glow }) => (
-                        <div
-                            key={title}
-                            className={`group p-7 rounded-2xl bg-white border-2 border-transparent ${border} card-shadow hover:card-shadow-hover ${glow} hover:-translate-y-2 transition-all duration-300 cursor-pointer`}
-                        >
-                            <div
-                                className={`w-14 h-14 ${bg} rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}
-                            >
-                                <Icon size={26} className={color} />
-                            </div>
-                            <h3 className="text-lg font-semibold text-slate-900 mb-2">
-                                {title}
-                            </h3>
-                            <p className="text-sm text-gray-500 leading-relaxed">
-                                {description}
-                            </p>
-                            <div className={`mt-4 h-1 w-0 group-hover:w-12 ${bg} rounded-full transition-all duration-500`} />
-                        </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {services.map((service) => (
+                        <ServiceCard key={service.title} {...service} />
                     ))}
                 </div>
             </div>
