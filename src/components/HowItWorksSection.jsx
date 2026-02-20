@@ -5,7 +5,7 @@ const steps = [
         step: '01',
         icon: Search,
         title: 'Search & Browse',
-        description: 'Browse through our extensive catalog of skilled professionals or post your job requirements.',
+        description: 'Browse through our extensive catalog of skilled professionals.',
         color: 'from-primary-500 to-primary-600',
         bg: 'bg-primary-50',
         ring: 'ring-primary-200',

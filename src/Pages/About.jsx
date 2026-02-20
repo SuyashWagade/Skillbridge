@@ -1,5 +1,6 @@
 import { Target, Eye, Heart, Lightbulb, Award, Users, Globe, TrendingUp } from 'lucide-react';
 import bridge from '../assets/bridge.jpg';
+import skillbridgeVideo from '../assets/skillbridge.mp4';
 
 const values = [
     {
@@ -109,22 +110,15 @@ function About() {
                     <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                         {/* Image Side */}
                         <div className="relative">
-                            <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-primary-100 via-accent-100 to-emerald-100 overflow-hidden shadow-xl">
-                                <div className="w-full h-full flex items-center justify-center relative">
-                                    <div className="absolute inset-0 opacity-10"
-                                        style={{
-                                            backgroundImage: 'radial-gradient(circle, #2563eb 1px, transparent 1px)',
-                                            backgroundSize: '20px 20px',
-                                        }}
-                                    />
-                                    <div className="text-center p-8 relative z-10">
-                                        <div className="w-24 h-24 bg-gradient-to-br from-primary-600 to-accent-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl">
-                                            <span className="text-4xl font-bold text-white">SB</span>
-                                        </div>
-                                        <h3 className="text-2xl font-bold text-primary-800 mb-2">SkillBridge</h3>
-                                        <p className="text-primary-600 font-medium">Since 2024</p>
-                                    </div>
-                                </div>
+                            <div className="aspect-video rounded-2xl bg-slate-900 overflow-hidden shadow-xl ring-1 ring-slate-900/5">
+                                <video
+                                    src={skillbridgeVideo}
+                                    controls
+                                    className="w-full h-full object-cover"
+                                    poster={bridge} // Optional: use the bridge image as poster
+                                >
+                                    Your browser does not support the video tag.
+                                </video>
                             </div>
                             <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-gradient-to-br from-accent-500/20 to-violet-500/20 rounded-2xl -z-10" />
                             <div className="absolute -top-4 -left-4 w-24 h-24 bg-gradient-to-br from-emerald-500/20 to-primary-500/20 rounded-full -z-10" />

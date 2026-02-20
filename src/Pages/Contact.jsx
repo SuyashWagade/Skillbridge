@@ -210,7 +210,7 @@ function Contact() {
                                     />
                                     <div className="text-center relative z-10">
                                         <MapPin size={40} className="text-primary-400 mx-auto mb-2" />
-                                        <p className="text-sm font-medium text-primary-600">Mumbai, India</p>
+                                        <p className="text-sm font-medium text-primary-600">Pune, India</p>
                                         <p className="text-xs text-primary-400 mt-1">Map integration coming soon</p>
                                     </div>
                                 </div>
